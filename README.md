@@ -29,8 +29,20 @@ The model has been fine-tuned to handle a wide range of mental health-related qu
 
 ---
 
-## 🚀 Setup Instructions
+## 🧠 Model Used
 
+- **Base Model**: [`TinyLlama/TinyLlama-1.1B-Chat-v1.0`](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0)
+- **Tokenizer**: Same as base model, with `eos_token` used for padding
+- **Quantization**: 4-bit using `BitsAndBytesConfig` (NF4, double quantization)
+
+---
+## 🛠️ Fine-Tuning Technique
+
+We apply **QLoRA** (Quantized Low-Rank Adapter) using the `peft` library to efficiently fine-tune the model on consumer-grade GPUs.
+
+---
+## 🚀 Setup Instructions
+ 
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/yourusername/mental-health-assistant.git
@@ -44,13 +56,7 @@ python -m venv venv
 source venv/bin/activate        # On Windows: venv\Scripts\activate
 ```
 
-### 3. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Load the Fine-Tuned Model
+### 3. Load the Fine-Tuned Model
 
 Ensure you have the fine-tuned model checkpoint saved locally or on Hugging Face. Update `app.py` or the serving script accordingly.
 
@@ -77,13 +83,20 @@ It’s important to know that recovery is possible. It’s possible to recover f
 
 ---
 
-## 🧠 Model Training Notes
+## 🧪 Libraries and Tools
 
-* **Base Model**: (e.g., `gpt-3.5-turbo`, `LLaMA`, `FLAN-T5`, etc. — specify if applicable)
-* **Fine-Tuned On**: QA pairs from the Kaggle dataset
-* This notebook is intended to run on GPUs with enough memory for 4-bit quantized training.
-* You can customize LoRA hyperparameters and dataset preprocessing as needed.
-* Ensure your CSV file contains correctly formatted Instruction and Response columns.
+pip install -q bitsandbytes accelerate datasets loralib peft transformers trl
+transformers – Model & tokenizer management
+
+* **datasets** – To load and prepare the support chat dataset
+
+* **peft** – For Parameter-Efficient Fine-Tuning
+
+* **bitsandbytes** – Enables 4-bit quantization
+
+* **trl** – Optional for RLHF or reward modeling tasks
+
+
 ---
 
 ## 🙏 Acknowledgments
